@@ -1,0 +1,83 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      routes:
+        - id: user_service
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/v1/users/**
+          filters:
+            - CircuitBreaker=userServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: auth_service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/v1/auth/**
+          filters:
+            - CircuitBreaker=authServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: posts_service
+          uri: lb://posts-service
+          predicates:
+            - Path=/api/v1/posts/**
+          filters:
+            - CircuitBreaker=postsServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: friends_service
+          uri: lb://friends-service
+          predicates:
+            - Path=/api/v1/friends/**
+          filters:
+            - CircuitBreaker=friendsServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: announcement_service
+          uri: lb://announcement-service
+          predicates:
+            - Path=/api/v1/announcements/**
+          filters:
+            - CircuitBreaker=announcementServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: messaging_service
+          uri: lb://messaging-service
+          predicates:
+            - Path=/api/v1/messaging/**
+          filters:
+            - CircuitBreaker=messagingServiceCB
+            - FallbackUri=/fallbackRoute
+        - id: ads_service
+          uri: lb://ads-service
+          predicates:
+            - Path=/api/v1/ads/**
+          filters:
+            - CircuitBreaker=adsServiceCB
+            - FallbackUri=/fallbackRoute
+
+server:
+  port: 9191
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    preferIpAddress: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.config: DEBUG

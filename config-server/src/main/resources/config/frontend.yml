@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: frontend
+
+# Frontend Configuration
+frontend:
+  api:
+    base-url: http://localhost:9191
+    timeout: 10000
+    retry-attempts: 3
+  
+  features:
+    announcements: true
+    real-time-messaging: true
+    advanced-search: false
+    analytics: false
+    dark-mode: true
+    notifications: true
+  
+  ui:
+    theme: light
+    language: uk
+    items-per-page: 20
+    auto-refresh-interval: 30000
+  
+  auth:
+    token-refresh-threshold: 300000
+    session-timeout: 3600000
+    auto-logout: true
+  
+  cache:
+    enabled: true
+    ttl: 300000
+    max-size: 100
+  
+  logging:
+    level: info
+    console: true
+    remote: false
+
+# Service endpoints for frontend
+api-endpoints:
+  auth: /api/v1/auth
+  users: /api/v1/users
+  posts: /api/v1/posts
+  friends: /api/v1/friends
+  announcements: /api/v1/announcements
+  messaging: /api/v1/messaging
+  ads: /api/v1/ads
+  orders: /api/v1/orders
+  notifications: /api/v1/notify
+
+# Environment-specific settings
+environment: development
+debug: true
